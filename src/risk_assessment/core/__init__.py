@@ -1,4 +1,4 @@
-# src/risk_assessment/__init__.py
+# src/core/risk_assessment/__init__.py
 
 import logging
 
