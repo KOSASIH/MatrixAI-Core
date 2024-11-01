@@ -1,0 +1,44 @@
+import numpy as np
+from sklearn.ensemble import IsolationForest
+from sklearn.neighbors import LocalOutlierFactor
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+class EnsembleAnomalyDetector:
+    def __init__(self):
+        self.isolation_forest = IsolationForest(contamination=0.05)
+        self.local_outlier_factor = LocalOutlierFactor(n_neighbors=20, contamination=0.05)
+        self.autoencoder = self.build_autoencoder()
+    
+    def build_autoencoder(self):
+        model = Sequential([
+            Dense(32, activation='relu', input_shape=(10,)),
+            Dense(16, activation='relu'),
+            Dense(8, activation='relu'),
+            Dense(16, activation='relu'),
+            Dense(32, activation='relu'),
+            Dense(10, activation='sigmoid')
+        ])
+        model.compile(optimizer='adam', loss='mse')
+        return model
+
+    def train(self, data):
+        self.isolation_forest.fit(data)
+        self.local_outlier_factor.fit(data)
+        self.autoencoder.fit(data, data, epochs=20, batch_size=8, verbose=0)
+
+    def assess_risk(self, transaction):
+        if_result = self.isolation_forest.predict([transaction])
+        lof_result = self.local_outlier_factor._predict([transaction])
+        ae_loss = np.mean((transaction - self.autoencoder.predict([transaction])[0])**2)
+        
+        if if_result[0] == -1 or lof_result[0] == -1 or ae_loss > 0.1:
+            return "Anomalous"
+        return "Normal"
+
+# Contoh penggunaan
+detector = EnsembleAnomalyDetector()
+data = np.random.rand(100, 10)
+detector.train(data)
+new_transaction = np.random.rand(10)
+print("Risk assessment:", detector.assess_risk(new_transaction))
