@@ -1,6 +1,5 @@
 [![Stanford Blockchain](https://img.shields.io/badge/Stanford_Blockchain-Program-8B0000?style=flat&logo=bitcoin)](https://cyber.stanford.edu/)
 [![Stanford Center for Blockchain Research](https://img.shields.io/badge/Stanford_Center_for_Blockchain_Research-Member-FF4500?style=flat&logo=ethereum)](https://cbr.stanford.edu/)
-[![Pi Network](https://img.shields.io/badge/Pi_Network-Community-FFCC00?style=flat&logo=bitcoin)](https://minepi.com/)
 
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/KOSASIH/MatrixAI-Core">MatrixAI</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.linkedin.com/in/kosasih-81b46b5a">KOSASIH</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Creative Commons Attribution 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""></a></p>
