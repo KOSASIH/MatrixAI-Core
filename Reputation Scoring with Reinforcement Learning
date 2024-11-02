@@ -1,0 +1,27 @@
+import numpy as np
+
+class ReputationAgent:
+    def __init__(self):
+        self.reputation_scores = {}
+        self.learning_rate = 0.1
+        self.discount_factor = 0.95
+    
+    def initialize_user(self, user_id):
+        if user_id not in self.reputation_scores:
+            self.reputation_scores[user_id] = 0.5  # Mulai dari reputasi netral
+
+    def update_reputation(self, user_id, interaction_score):
+        self.initialize_user(user_id)
+        # Update rule menggunakan pembelajaran penguatan sederhana
+        old_score = self.reputation_scores[user_id]
+        new_score = old_score + self.learning_rate * (interaction_score + self.discount_factor * old_score - old_score)
+        self.reputation_scores[user_id] = max(0, min(1, new_score))  # Jaga dalam rentang 0-1
+
+    def get_reputation(self, user_id):
+        self.initialize_user(user_id)
+        return self.reputation_scores[user_id]
+
+# Contoh penggunaan
+agent = ReputationAgent()
+agent.update_reputation("user123", 0.8)  # Menambahkan skor reputasi positif
+print("User Reputation:", agent.get_reputation("user123"))

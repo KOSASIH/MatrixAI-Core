@@ -1,0 +1,48 @@
+pragma solidity ^0.8.0;
+
+contract WeightedGovernance {
+    struct Proposal {
+        string description;
+        uint256 votesFor;
+        uint256 votesAgainst;
+        bool executed;
+    }
+
+    Proposal[] public proposals;
+    mapping(address => uint256) public reputations;
+    mapping(address => mapping(uint256 => bool)) public voted;
+
+    event ProposalCreated(uint256 proposalId, string description);
+    event Voted(uint256 proposalId, address voter, bool voteFor, uint256 weight);
+    event ProposalExecuted(uint256 proposalId, bool passed);
+
+    function setReputation(address user, uint256 reputation) public {
+        reputations[user] = reputation;  // Contoh, ini bisa disinkronkan dari modul reputasi di luar kontrak
+    }
+
+    function createProposal(string memory description) public {
+        proposals.push(Proposal(description, 0, 0, false));
+        emit ProposalCreated(proposals.length - 1, description);
+    }
+
+    function vote(uint256 proposalId, bool voteFor) public {
+        require(!voted[msg.sender][proposalId], "Already voted");
+        Proposal storage proposal = proposals[proposalId];
+        uint256 weight = reputations[msg.sender] + 1;  // Bobot berbasis reputasi
+        if (voteFor) {
+            proposal.votesFor += weight;
+        } else {
+            proposal.votesAgainst += weight;
+        }
+        voted[msg.sender][proposalId] = true;
+        emit Voted(proposalId, msg.sender, voteFor, weight);
+    }
+
+    function executeProposal(uint256 proposalId) public {
+        Proposal storage proposal = proposals[proposalId];
+        require(!proposal.executed, "Proposal already executed");
+        proposal.executed = true;
+        bool passed = proposal.votesFor > proposal.votesAgainst;
+        emit ProposalExecuted(proposalId, passed);
+    }
+}

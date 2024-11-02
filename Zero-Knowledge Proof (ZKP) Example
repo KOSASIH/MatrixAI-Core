@@ -1,0 +1,26 @@
+import random
+import hashlib
+
+class ZeroKnowledgeProof:
+    def __init__(self):
+        self.secret = None
+        self.commitment = None
+    
+    def generate_secret(self):
+        self.secret = random.randint(1000, 10000)  # Secret value
+        self.commitment = hashlib.sha256(str(self.secret).encode()).hexdigest()
+        return self.commitment
+
+    def verify_proof(self, provided_secret):
+        # Verifier checks if provided secret matches the commitment
+        return hashlib.sha256(str(provided_secret).encode()).hexdigest() == self.commitment
+
+# Contoh penggunaan
+zkp = ZeroKnowledgeProof()
+commitment = zkp.generate_secret()
+print("Commitment (hash):", commitment)
+
+# Verification
+provided_secret = int(input("Enter your secret for verification: "))
+is_verified = zkp.verify_proof(provided_secret)
+print("Identity Verified:", is_verified)
